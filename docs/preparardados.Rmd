@@ -1,6 +1,6 @@
 ---
 title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
-author: "Beatriz Milz"
+author: ""
 output:
   prettydoc::html_pretty:
     theme: leonids
@@ -45,9 +45,9 @@ for (x in 2003:2018){
 
 Data de obtenção dos dados: 
 
-- Dados de 2003 à 2017 - download realizado em 26/09/2018;
+- Dados de 2003 à 2017 - download realizado em 11/10/2018;
 
-- Dados de 2008 - download realizado em 28/09/2018;
+- Dados de 2008 - download realizado em 11/10/2018;
 
 ```{r eval=FALSE, include=TRUE}
 orcamento2003 <- readxl::read_xls("data/basedadosexecucao2003.xls")
