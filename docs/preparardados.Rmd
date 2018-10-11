@@ -49,7 +49,7 @@ Data de obtenção dos dados:
 
 - Dados de 2008 - download realizado em 28/09/2018;
 
-```{r}
+```{r eval=FALSE, include=TRUE}
 orcamento2003 <- readxl::read_xls("data/basedadosexecucao2003.xls")
 orcamento2004 <- readxl::read_xls("data/basedadosexecucao2004.xls")
 orcamento2005 <- readxl::read_xls("data/basedadosexecucao2005.xls")
@@ -74,7 +74,7 @@ orcamento2018 <- readxl::read_xls("data/basedadosexecucao2018.xls")
 
 Os dados de 2017 e 2018  não estão no mesmo padrão dos anos anteriores. Precisamos padronizar transformando algumas colunas em string/texto.
 2017:
-```{r}
+```{r eval=FALSE, include=TRUE }
 orcamento2017$Cd_AnoExecucao <- as.character(orcamento2017$Cd_AnoExecucao)
 
 orcamento2017$Cd_Exercicio <- as.character(orcamento2017$Cd_Exercicio)
@@ -109,7 +109,7 @@ orcamento2017$Cd_Fonte<- as.character(orcamento2017$Cd_Fonte)
 ```
 
 2018:
-```{r}
+```{r eval=FALSE, include=TRUE}
 orcamento2018$Cd_AnoExecucao <- as.character(orcamento2018$Cd_AnoExecucao)
 
 orcamento2018$Cd_Exercicio <- as.character(orcamento2018$Cd_Exercicio)
@@ -144,7 +144,7 @@ orcamento2018$Cd_Fonte<- as.character(orcamento2018$Cd_Fonte)
 
 ## Juntar os dados de diferentes anos em apenas um dataframe
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, eval=FALSE, include=TRUE}
 exec_orcamentaria_pmsp <-  full_join(orcamento2003,orcamento2004)  
 exec_orcamentaria_pmsp <-  full_join(exec_orcamentaria_pmsp,orcamento2005)
 exec_orcamentaria_pmsp <-  full_join(exec_orcamentaria_pmsp,orcamento2006)
@@ -165,7 +165,7 @@ exec_orcamentaria_pmsp <-  full_join(exec_orcamentaria_pmsp,orcamento2018)
 
 Temos agora um dataframe com os dados de execução orçamentária da Prefeitura Municipal de São Paulo entre os anos 2013 e 2018. Vamos exportar este dataframe para ter um arquivo único:
 
-```{r}
+```{r eval=FALSE, include=TRUE}
 write_rds(exec_orcamentaria_pmsp, path="data/exec_orcamentaria_pmsp.rds")
 
 ```

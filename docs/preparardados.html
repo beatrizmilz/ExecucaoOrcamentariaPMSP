@@ -89,12 +89,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Importar os Dados de execução orçamentária</h2>
 <p>Primeiro é necessário carregar o pacote Tidyverse:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<p>Fazer o download das bases de dados de execução disponibilizadas pela PMSP:</p>
+<p>Caminho através do site da prefeitura: Prefeitura Municial de São Paulo -&gt; Secretaria da Fazenda -&gt; Prestação de Contas Públicas -&gt; Orçamento.</p>
+<p>Link: <a href="http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php" class="uri">http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php</a></p>
+<p>O código a seguir faz o download dos arquivos entre os anos 2003 e 2018, e salva na pasta “data” (essa etapa pode demorar um pouco):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">2003</span><span class="op">:</span><span class="dv">2018</span>){
+  <span class="kw">download.file</span>(<span class="kw">paste0</span>(<span class="st">&quot;http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/&quot;</span>,x,<span class="st">&quot;/basedadosexecucao&quot;</span>,x,<span class="st">&quot;.xls&quot;</span>), 
+                <span class="dt">destfile =</span> <span class="kw">paste0</span>(<span class="st">&quot;data/basedadosexecucao&quot;</span>,x,<span class="st">&quot;.xls&quot;</span>), <span class="dt">mode =</span> <span class="st">&quot;wb&quot;</span>)
+}</code></pre></div>
 <ul>
 <li>Carregar o arquivo excel disponibilizado pela prefeitura:</li>
 </ul>
 <p><em>Referência:</em></p>
-<p>Prefeitura Municial de São Paulo - Secretaria da Fazenda - Prestação de Contas Públicas - Orçamento</p>
-<p><a href="http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php" class="uri">http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php</a></p>
 <p>Data de obtenção dos dados:</p>
 <ul>
 <li><p>Dados de 2003 à 2017 - download realizado em 26/09/2018;</p></li>
@@ -114,14 +120,12 @@ orcamento2013 &lt;-<span class="st"> </span>readxl<span class="op">::</span><spa
 orcamento2014 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2014.xls&quot;</span>)
 orcamento2015 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2015.xls&quot;</span>)
 orcamento2016 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2016.xls&quot;</span>)
-orcamento2017 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2017.xls&quot;</span>)</code></pre></div>
-<p>Importar os dados de 2018 - Dá erro usando o formato XLS! Primeiro converti em CSV :)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2018 &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(<span class="st">&quot;data/basedadosexecucao2018.csv&quot;</span>)</code></pre></div>
-<p>Erro ao carregar a planilha de 2018: <strong>Error in read_fun(path = path, sheet_i = sheet, limits = limits, shim = shim, : Failed to open data/basedadosexecucao2018.xls</strong></p>
+orcamento2017 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2017.xls&quot;</span>)
+orcamento2018 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2018.xls&quot;</span>)</code></pre></div>
 </div>
 <div id="padronizar-os-dados-de-2017-e-2018" class="section level2">
 <h2>Padronizar os dados de 2017 e 2018</h2>
-<p>Os dados de 2017 e 2018 não estão no mesmo padrão dos anos anteriores. Precisamos padronizar transformando algumas colunas em string/texto.</p>
+<p>Os dados de 2017 e 2018 não estão no mesmo padrão dos anos anteriores. Precisamos padronizar transformando algumas colunas em string/texto. 2017:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2017<span class="op">$</span>Cd_AnoExecucao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_AnoExecucao)
 
 orcamento2017<span class="op">$</span>Cd_Exercicio &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_Exercicio)
@@ -151,9 +155,7 @@ orcamento2017<span class="op">$</span>Cd_Modalidade  &lt;-<span class="st"> </sp
 orcamento2017<span class="op">$</span>Cd_Elemento  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_Elemento)
 
 orcamento2017<span class="op">$</span>Cd_Fonte&lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_Fonte)</code></pre></div>
-</div>
-<div id="os-dados-de-2018-nao-estao-do-mesmo-tipo-dos-anos-anteriores.-precisamos-padronizar." class="section level2">
-<h2>Os dados de 2018 não estão do mesmo tipo dos anos anteriores. Precisamos padronizar.</h2>
+<p>2018:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2018<span class="op">$</span>Cd_AnoExecucao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_AnoExecucao)
 
 orcamento2018<span class="op">$</span>Cd_Exercicio &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Exercicio)
@@ -184,8 +186,8 @@ orcamento2018<span class="op">$</span>Cd_Elemento  &lt;-<span class="st"> </span
 
 orcamento2018<span class="op">$</span>Cd_Fonte&lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Fonte)</code></pre></div>
 </div>
-<div id="juntar-os-diferentes-anos-em-apenas-um-dataframe" class="section level2">
-<h2>Juntar os diferentes anos em apenas um dataframe</h2>
+<div id="juntar-os-dados-de-diferentes-anos-em-apenas-um-dataframe" class="section level2">
+<h2>Juntar os dados de diferentes anos em apenas um dataframe</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(orcamento2003,orcamento2004)  
 exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2005)
 exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2006)
