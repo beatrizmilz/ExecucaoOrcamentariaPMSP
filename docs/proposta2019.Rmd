@@ -1,0 +1,42 @@
+---
+title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
+author: ""
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Proposta Orçamentária 2019
+
+
+Primeiro é necessário carregar o pacote Tidyverse:
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+```
+Fonte dos dados: 
+http://orcamento.sf.prefeitura.sp.gov.br/orcamento/proposta.php
+Base de Dados – Quadro Detalhado da Despesa 
+
+Fazer o download da tabela:
+```{r eval=FALSE, include=TRUE}
+
+download.file("http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/2019/BaseDados.xls", destfile = "data/BaseDados2019.xls", mode = "wb")
+
+```
+Importar para o R:
+```{r}
+proposta2019 <- readxl::read_xls("data/BaseDados2019.xls")
+head(proposta2019)
+```
+
+
+Continuação: Fazer gráfico orçamento e órgão.
+
+
+<center>[Página inicial](index.html)
+</center>

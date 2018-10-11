@@ -1,0 +1,43 @@
+---
+title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
+author: ""
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R
+
+Essa página está em construção!
+
+- [Importar os dados de execução orçamentária](preparardados.html)
+
+  Explorando os dados: 
+
++ [Secretaria do Verde e do Meio Ambiente](svma.html)
+
+- [Proposta Orçamentária 2019](proposta2019.html)
+
+<footer>
+Elaborado por <a href="https://github.com/beatrizmilz" target=_blank>Beatriz Milz</a>, utilizando os softwares <a href="https://www.r-project.org/" target=_blank>R</a> e <a href="https://www.rstudio.com/" target=_blank>RStudio</a>.
+Pacotes utilizados: 
+<a href="https://www.tidyverse.org/" target=_blank>Tidyverse</a>, 
+<a href="http://yixuan.cos.name/prettydoc/" target=_blank>Prettydoc</a>.
+
+
+<strong>Agradecimentos</strong>: 
+<a href="https://rladies.org/
+" target=_blank>R-Ladies Global</a>, 
+<a href="https://www.meetup.com/R-Ladies-Sao-Paulo/
+" target=_blank>R-Ladies São Paulo</a>,
+<a href="https://www.curso-r.com/" target=_blank>Curso-R</a>, 
+<a href="http://cafehacker.prefeitura.sp.gov.br" target=_blank>Café Hacker SP</a>,
+<a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/controladoria_geral/participacao_social/" target=_blank>Controladoria Geral da Prefeitura Municipal de São Paulo</a>.
+
+</footer>

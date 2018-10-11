@@ -1,0 +1,116 @@
+---
+title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
+author: ""
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Explorando o orçamento da Secretaria Municipal do Verde e Meio Ambiente
+
+
+Primeiro é necessário carregar o pacote Tidyverse:
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+```
+Carregar o dataframe da execução orçamentária entre 2003 e 2018 (caso queira saber como esse arquivo foi gerado, [clique aqui](preparardados.html).
+```{r}
+exec_orcamentaria_pmsp <- read_rds("data/exec_orcamentaria_pmsp.rds")
+```
+
+ Filtrar apenas os dados da SVMA
+
+```{r warning=FALSE}
+orcamento_svma <- exec_orcamentaria_pmsp %>% filter(Sigla_Orgao == "SVMA")
+View(orcamento_svma)
+```
+
+
+Qual foi o orçamento gasto pela SVMA por ano?
+É importante considerar que o ano de 2018 está incompleto, pois ainda estamos em outubro.
+```{r}
+orcamento_svma  %>% 
+    mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  arrange (desc(Vl_Pago)) %>% 
+  summarise(soma = sum(Vl_Pago)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = soma, fill=Cd_Exercicio))+
+   labs(
+    x = "Ano", 
+    y = "Soma valor pago (Milhões de R$)",
+    fill = "Ano"
+  )
+```
+
+
+Quanto era o orçamento previsto por ano? 
+
+```{r}
+orcamento_svma  %>% 
+    mutate(Vl_Atualizado = Vl_Atualizado/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  arrange (desc(Vl_Atualizado)) %>% 
+  summarise(soma = sum(Vl_Atualizado)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = soma, fill=Cd_Exercicio))+
+   labs(
+    x = "Ano", 
+    y = "Soma valor atualizado (Milhões de R$)",
+    fill = "Ano"
+  )
+```
+
+
+Quanto é essa diferença? Ou seja, quanto foi previsto no orçamento e não foi gasto?
+
+```{r}
+orcamento_svma  %>% 
+    
+  mutate(Vl_diferenca = Vl_Atualizado-Vl_Pago) %>% 
+mutate(Vl_diferenca = Vl_diferenca/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  arrange (desc(Vl_diferenca)) %>% 
+  summarise(soma = sum(Vl_diferenca)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = soma, fill=Cd_Exercicio))+
+   labs(
+    x = "Ano", 
+    y = "Vl previsto - Vl Pago (Milhões de R$)",
+    fill = "Ano"
+  )
+```
+
+
+Quanto foi o gasto por unidade?
+```{r}
+orcamento_svma  %>% 
+    mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+  group_by(Ds_Unidade) %>%  
+  arrange (desc(Vl_Pago)) %>% 
+  summarise(soma = sum(Vl_Pago)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Ds_Unidade, y = soma, fill=Ds_Unidade))+
+   labs(
+    x = "Unidade", 
+    y = "Soma valor pago (Milhões de R$)",
+    fill = "Unidade"
+  )+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+
+
+<center>[Página inicial](index.html)
+</center>
