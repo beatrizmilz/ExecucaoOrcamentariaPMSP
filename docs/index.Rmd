@@ -12,8 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R
-
 Essa página está em construção!
 
 - [Importar os dados de execução orçamentária](preparardados.html)
