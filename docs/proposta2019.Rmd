@@ -31,11 +31,70 @@ download.file("http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/2019/B
 Importar para o R:
 ```{r}
 proposta2019 <- readxl::read_xls("data/BaseDados2019.xls")
-head(proposta2019)
+
+```
+
+Renomear as colunas (para remover os caracteres especiais):
+```{r}
+names(proposta2019) <- c("dotacao", "exercicio_empresa", "exercicio", "administracao", "orgao", "desc_orgao", "unidade", "desc_unidade", "funcao", "desc_funcao", "subfuncao", "desc_subfuncao", "programa", "desc_programa", "papa", "proj_ativ", "desc_proj_ativ", "cta_despesa", "desc_cta_despesa", "fonte", "desc_fonte", "cod_nro_emnd_nota", "saldo_orc", "agenda", "desc_agenda", "eixo", "desc_eixo", "ppa")
+```
+
+
+Explorar:
+Quais são os 10 órgãos com maior orçamento?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000000) %>%  #transformar em bilhões
+   group_by(desc_orgao) %>%  
+  summarise(soma = sum(saldo_orc)) %>% 
+  top_n(10) %>% arrange (desc(soma)) %>% 
+  
+   ggplot()+
+    geom_col(aes(x =  reorder(desc_orgao,-soma), y = soma, fill=desc_orgao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Bilhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+
+
+Qual é o orçamento previsto para a Secretaria Municipal do Verde e do Meio Ambiente?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Gestão Ambiental") %>% 
+group_by(desc_orgao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  arrange(desc(soma))
+```
+
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Gestão Ambiental") %>% 
+group_by(desc_orgao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  ggplot()+
+    geom_col(aes(x =  reorder(desc_orgao,-soma), y = soma, fill=desc_orgao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 ```
 
 
 Continuação: Fazer gráfico orçamento e órgão.
+
+
 
 
 <center>[Página inicial](index.html)

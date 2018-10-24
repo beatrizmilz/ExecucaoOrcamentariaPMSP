@@ -9,9 +9,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-# Preparando os dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R
+# Preparando os dados 
 
-## Importar os Dados de execução orçamentária
+## Importar os dados de execução orçamentária
 
 Primeiro é necessário carregar o pacote Tidyverse:
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
@@ -27,14 +27,18 @@ Link:
 http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php
 
 O código a seguir faz o download dos arquivos entre os anos 2003 e 2018, e salva na pasta "data" (essa etapa pode demorar um pouco):
+- Download de 2003 até 2017:
 
 ```{r eval=FALSE, include=TRUE}
-for (x in 2003:2018){
+for (x in 2003:2017){
   download.file(paste0("http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/",x,"/basedadosexecucao",x,".xls"), 
                 destfile = paste0("data/basedadosexecucao",x,".xls"), mode = "wb")
 }
 ```
-
+- Download dos dados de 2018:
+```{r eval=FALSE, include=TRUE}
+download.file("http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/2018/basedadosexecucao2018.xls", destfile = "data/basedadosexecucao2018.xls", mode = "wb")
+```
 
 
 - Carregar o arquivo excel disponibilizado pela prefeitura:
@@ -68,6 +72,10 @@ orcamento2017 <- readxl::read_xls("data/basedadosexecucao2017.xls")
 orcamento2018 <- readxl::read_xls("data/basedadosexecucao2018.xls")
 ```
 
+```{r eval=FALSE, include=TRUE}
+orcamento2018 <- readxl::read_xls("data/basedadosexecucao2018.xls")
+
+```
 
 
 ## Padronizar os dados de 2017 e 2018 
