@@ -20,7 +20,13 @@ Essa página está em construção!
 
 + [Secretaria do Verde e do Meio Ambiente](svma.html)
 
++ [Gestão Ambiental](gestaoambiental.html)
+
 - [Proposta Orçamentária 2019](proposta2019.html)
+
+
+
+> [Confira aqui as datas das audiências públicas sobre o Orçamento da PMSP para o ano de 2019!](http://www.saopaulo.sp.leg.br/blog/destaques-do-orcamento-2019/)
 
 <footer>
 Elaborado por <a href="https://github.com/beatrizmilz" target=_blank>Beatriz Milz</a>, utilizando os softwares <a href="https://www.r-project.org/" target=_blank>R</a> e <a href="https://www.rstudio.com/" target=_blank>RStudio</a>.

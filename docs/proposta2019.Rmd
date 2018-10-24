@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Proposta Orçamentária 2019
 
+[Confira aqui as datas das audiências públicas sobre o Orçamento da PMSP para o ano de 2019!](http://www.saopaulo.sp.leg.br/blog/destaques-do-orcamento-2019/)
 
 Primeiro é necessário carregar o pacote Tidyverse:
 ```{r echo=TRUE, message=FALSE, warning=FALSE}

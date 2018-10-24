@@ -1,0 +1,95 @@
+---
+title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
+author: ""
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Gestão Ambiental
+
+
+Primeiro é necessário carregar o pacote Tidyverse:
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+```
+Carregar o dataframe da execução orçamentária entre 2003 e 2018 (caso queira saber como esse arquivo foi gerado, [clique aqui](preparardados.html).
+```{r}
+exec_orcamentaria_pmsp <- read_rds("data/exec_orcamentaria_pmsp.rds")
+```
+
+
+Qual foi o orçamento gasto na função Gestão Ambiental por ano?
+É importante considerar que o ano de 2018 está incompleto, pois ainda estamos em outubro.
+```{r}
+exec_orcamentaria_pmsp  %>% 
+     mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+  group_by(Cd_Exercicio) %>%  
+  summarise(soma = sum(Vl_Pago)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = soma))+
+   labs(
+    x = "Ano", 
+    y = "Soma valor pago (Milhões de R$)",
+    fill = "Ano"
+  ) + theme_bw()
+```
+
+
+Quanto foi o gasto por sub-função entre 2003 e 2018?
+```{r}
+exec_orcamentaria_pmsp  %>% 
+     mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+    group_by(Cd_Exercicio) %>% 
+group_by(Ds_SubFuncao) %>% 
+  summarise(soma = sum(Vl_Pago)) %>%
+  filter(soma > 0) %>% 
+  arrange(desc(soma)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = reorder(Ds_SubFuncao,-soma), y = soma, fill=Ds_SubFuncao))+
+   labs(
+    x = "Sub-função", 
+    y = "Soma valor pago (Milhões de R$)",
+    fill = "Sub-função"
+  ) + theme_bw()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+```
+
+
+
+Quanto foi o gasto por sub-função por ano?
+```{r}
+exec_orcamentaria_pmsp  %>% 
+     mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+  
+group_by(Ds_SubFuncao) %>% 
+   filter(Vl_Pago > 0) %>% 
+  arrange(desc(Vl_Pago)) %>% 
+  ggplot()+
+    geom_col(aes(x = reorder(Ds_SubFuncao,-Vl_Pago), y = Vl_Pago, fill=Ds_SubFuncao))+
+   labs(
+    x = "Sub-função", 
+    y = "Soma valor pago (Milhões de R$)",
+    fill = "Sub-função"
+  ) + theme_bw()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+     facet_wrap(~Cd_Exercicio)  
+
+```
+<center>[Página inicial](index.html)
+</center>
