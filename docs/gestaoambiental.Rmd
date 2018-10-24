@@ -3,7 +3,7 @@ title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo
 author: ""
 output:
   prettydoc::html_pretty:
-    theme: leonids
+    theme: HPSTR
     highlight: github
 ---
 
