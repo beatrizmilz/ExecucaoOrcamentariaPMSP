@@ -99,7 +99,7 @@ orcamento_svma  %>%
   summarise(soma = sum(Vl_Pago)) %>% 
 
   ggplot()+
-    geom_col(aes(x = Ds_Unidade, y = soma, fill=Ds_Unidade))+
+    geom_col(aes(x = reorder(Ds_Unidade,-soma), y = soma, fill=Ds_Unidade))+
    labs(
     x = "Unidade", 
     y = "Soma valor pago (Milhões de R$)",
