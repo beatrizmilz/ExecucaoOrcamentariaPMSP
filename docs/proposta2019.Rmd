@@ -1,5 +1,5 @@
 ---
-title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
+title: "Orçamento da Prefeitura Municipal de São Paulo"
 author: ""
 output:
   prettydoc::html_pretty:
@@ -63,7 +63,7 @@ proposta2019 %>%
 ```
 
 
-
+## Secretaria do Verde e do Meio Ambiente
 Qual é o orçamento previsto para a Secretaria Municipal do Verde e do Meio Ambiente?
 ```{r}
 proposta2019 %>% 
@@ -74,6 +74,10 @@ group_by(desc_orgao) %>%
   arrange(desc(soma))
 ```
 
+## Funções
+
+### Gestão Ambiental
+Qual é o orçamento previsto para a função Gestão Ambiental?
 ```{r}
 proposta2019 %>% 
   mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
@@ -93,9 +97,131 @@ group_by(desc_orgao) %>%
 ```
 
 
-Continuação: Fazer gráfico orçamento e órgão.
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Gestão Ambiental") %>% 
+  filter(saldo_orc > 0) %>% 
+group_by(desc_subfuncao) %>% 
+   ggplot()+
+    geom_col(aes(x =  reorder(desc_subfuncao,-saldo_orc), y = saldo_orc, fill=desc_subfuncao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+       strip.text = element_text(size=10))+
+  facet_wrap(~orgao, labeller = label_wrap_gen(width=10))  
+
+```
 
 
+### Saneamento
+Qual é o orçamento previsto para a função Saneamento?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Saneamento") %>% 
+group_by(desc_subfuncao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  ggplot()+
+    geom_col(aes(x =  reorder(desc_subfuncao,-soma), y = soma, fill=desc_subfuncao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+
+### Urbanismo
+Qual é o orçamento previsto para a função Urbanismo?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Urbanismo") %>% 
+group_by(desc_subfuncao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  ggplot()+
+    geom_col(aes(x =  reorder(desc_subfuncao,-soma), y = soma, fill=desc_subfuncao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+### Transportes
+Qual é o orçamento previsto para a função Transportes?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Transporte") %>% 
+group_by(desc_subfuncao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  ggplot()+
+    geom_col(aes(x =  reorder(desc_subfuncao,-soma), y = soma, fill=desc_subfuncao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+
+
+## Subfunção
+### Gestão Ambiental
+Qual é o orçamento previsto para a função Gestão Ambiental, segundo as subfunções?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Gestão Ambiental") %>% 
+group_by(desc_subfuncao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  ggplot()+
+    geom_col(aes(x =  reorder(desc_subfuncao,-soma), y = soma, fill=desc_subfuncao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+### Gestão Ambiental
+Qual é o orçamento previsto para a função Urbanismo, segundo as subfunções?
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_funcao=="Urbanismo") %>% 
+group_by(desc_subfuncao) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
+  ggplot()+
+    geom_col(aes(x =  reorder(desc_subfuncao,-soma), y = soma, fill=desc_subfuncao))+
+   labs(
+    x = "Órgão", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Órgão"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
 
 
 <center>[Página inicial](index.html)

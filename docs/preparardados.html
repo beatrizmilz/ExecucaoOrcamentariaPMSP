@@ -12,7 +12,7 @@
 
 
 
-<title>Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R</title>
+<title>Orçamento da Prefeitura Municipal de São Paulo</title>
 
 
 
@@ -67,7 +67,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R</h1>
+<h1 class="title toc-ignore project-name">Orçamento da Prefeitura Municipal de São Paulo</h1>
 </section>
 
 
@@ -75,30 +75,26 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <section class="main-content">
 <div id="preparando-os-dados" class="section level1">
 <h1>Preparando os dados</h1>
-<div id="importar-os-dados-de-execucao-orcamentaria" class="section level2">
-<h2>Importar os dados de execução orçamentária</h2>
+<ul>
+<li>Importar os dados de execução orçamentária</li>
+</ul>
 <p>Primeiro é necessário carregar o pacote Tidyverse:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
 <p>Fazer o download das bases de dados de execução disponibilizadas pela PMSP:</p>
 <p>Caminho através do site da prefeitura: Prefeitura Municial de São Paulo -&gt; Secretaria da Fazenda -&gt; Prestação de Contas Públicas -&gt; Orçamento.</p>
 <p>Link: <a href="http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php" class="uri">http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php</a></p>
-<p>O código a seguir faz o download dos arquivos entre os anos 2003 e 2018, e salva na pasta “data” (essa etapa pode demorar um pouco): - Download de 2003 até 2017:</p>
+<p>O código a seguir faz o download dos arquivos entre os anos 2003 e 2017, e salva na pasta “data” (essa etapa pode demorar um pouco): - Download de 2003 até 2017:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">2003</span><span class="op">:</span><span class="dv">2017</span>){
   <span class="kw">download.file</span>(<span class="kw">paste0</span>(<span class="st">&quot;http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/&quot;</span>,x,<span class="st">&quot;/basedadosexecucao&quot;</span>,x,<span class="st">&quot;.xls&quot;</span>), 
                 <span class="dt">destfile =</span> <span class="kw">paste0</span>(<span class="st">&quot;data/basedadosexecucao&quot;</span>,x,<span class="st">&quot;.xls&quot;</span>), <span class="dt">mode =</span> <span class="st">&quot;wb&quot;</span>)
 }</code></pre></div>
-<ul>
-<li>Download dos dados de 2018:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/2018/basedadosexecucao2018.xls&quot;</span>, <span class="dt">destfile =</span> <span class="st">&quot;data/basedadosexecucao2018.xls&quot;</span>, <span class="dt">mode =</span> <span class="st">&quot;wb&quot;</span>)</code></pre></div>
 <ul>
 <li>Carregar o arquivo excel disponibilizado pela prefeitura:</li>
 </ul>
 <p><em>Referência:</em></p>
 <p>Data de obtenção dos dados:</p>
 <ul>
-<li><p>Dados de 2003 à 2017 - download realizado em 11/10/2018;</p></li>
-<li><p>Dados de 2008 - download realizado em 11/10/2018;</p></li>
+<li>Dados de 2003 à 2017 - download realizado em 01/11/2018;</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2003 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2003.xls&quot;</span>)
 orcamento2004 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2004.xls&quot;</span>)
@@ -114,13 +110,10 @@ orcamento2013 &lt;-<span class="st"> </span>readxl<span class="op">::</span><spa
 orcamento2014 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2014.xls&quot;</span>)
 orcamento2015 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2015.xls&quot;</span>)
 orcamento2016 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2016.xls&quot;</span>)
-orcamento2017 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2017.xls&quot;</span>)
-orcamento2018 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2018.xls&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2018 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2018.xls&quot;</span>)</code></pre></div>
-</div>
-<div id="padronizar-os-dados-de-2017-e-2018" class="section level2">
-<h2>Padronizar os dados de 2017 e 2018</h2>
-<p>Os dados de 2017 e 2018 não estão no mesmo padrão dos anos anteriores. Precisamos padronizar transformando algumas colunas em string/texto. 2017:</p>
+orcamento2017 &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="st">&quot;data/basedadosexecucao2017.xls&quot;</span>)</code></pre></div>
+<ul>
+<li>Padronizar os dados de 2017: Os dados de 2017 não estão no mesmo padrão dos anos anteriores. Precisamos padronizar transformando algumas colunas em string/texto.</li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2017<span class="op">$</span>Cd_AnoExecucao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_AnoExecucao)
 
 orcamento2017<span class="op">$</span>Cd_Exercicio &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_Exercicio)
@@ -150,56 +143,43 @@ orcamento2017<span class="op">$</span>Cd_Modalidade  &lt;-<span class="st"> </sp
 orcamento2017<span class="op">$</span>Cd_Elemento  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_Elemento)
 
 orcamento2017<span class="op">$</span>Cd_Fonte&lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2017<span class="op">$</span>Cd_Fonte)</code></pre></div>
-<p>2018:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">orcamento2018<span class="op">$</span>Cd_AnoExecucao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_AnoExecucao)
-
-orcamento2018<span class="op">$</span>Cd_Exercicio &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Exercicio)
-
-orcamento2018<span class="op">$</span>Cd_Exerc_Empresa_Id &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Exerc_Empresa_Id)
-
-orcamento2018<span class="op">$</span>Cd_Orgao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Orgao)
-
-orcamento2018<span class="op">$</span>Cd_Unidade &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Unidade)
-
-orcamento2018<span class="op">$</span>Cd_Funcao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Funcao)
-
-orcamento2018<span class="op">$</span>Cd_SubFuncao &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_SubFuncao)
-
-orcamento2018<span class="op">$</span>Cd_Programa &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Programa)
-
-orcamento2018<span class="op">$</span>ProjetoAtividade  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>ProjetoAtividade)
-
-orcamento2018<span class="op">$</span>Cd_Despesa  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Despesa)
-
-orcamento2018<span class="op">$</span>Categoria_Despesa  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Categoria_Despesa)
-
-orcamento2018<span class="op">$</span>Grupo_Despesa  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Grupo_Despesa)
-
-orcamento2018<span class="op">$</span>Cd_Modalidade  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Modalidade)
-
-orcamento2018<span class="op">$</span>Cd_Elemento  &lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Elemento)
-
-orcamento2018<span class="op">$</span>Cd_Fonte&lt;-<span class="st"> </span><span class="kw">as.character</span>(orcamento2018<span class="op">$</span>Cd_Fonte)</code></pre></div>
-</div>
 <div id="juntar-os-dados-de-diferentes-anos-em-apenas-um-dataframe" class="section level2">
 <h2>Juntar os dados de diferentes anos em apenas um dataframe</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(orcamento2003,orcamento2004)  
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2005)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2006)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2007)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2008)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2009)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2010)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2011)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2012)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2013)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2014)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2015)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2016)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2017)
-exec_orcamentaria_pmsp &lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp,orcamento2018)</code></pre></div>
+<ul>
+<li>Unir as bases de dados:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(orcamento2003,orcamento2004)  
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2005)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2006)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2007)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2008)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2009)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2010)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2011)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2012)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2013)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2014)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2015)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2016)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span>&lt;-<span class="st">  </span><span class="kw">full_join</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>,orcamento2017)</code></pre></div>
+<ul>
+<li>Padronizar as datas</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exec_orcamentaria_pmsp2003_<span class="dv">2017</span><span class="op">$</span>DataInicial &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span><span class="op">$</span>DataInicial)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span><span class="op">$</span>DataFinal &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span><span class="op">$</span>DataFinal)
+exec_orcamentaria_pmsp2003_<span class="dv">2017</span><span class="op">$</span>DataExtracao &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span><span class="op">$</span>DataExtracao)</code></pre></div>
+<ul>
+<li>Exportar um arquivo consolidado, com os dados dos anos anteriores:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_rds</span>(exec_orcamentaria_pmsp2003_<span class="dv">2017</span>, <span class="dt">path=</span><span class="st">&quot;data/exec_orcamentaria_pmsp2003_2017.rds&quot;</span>)</code></pre></div>
 <p>Temos agora um dataframe com os dados de execução orçamentária da Prefeitura Municipal de São Paulo entre os anos 2013 e 2018. Vamos exportar este dataframe para ter um arquivo único:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_rds</span>(exec_orcamentaria_pmsp, <span class="dt">path=</span><span class="st">&quot;data/exec_orcamentaria_pmsp.rds&quot;</span>)</code></pre></div>
+<p>Link para abrir este arquivo: <a href="data/exec_orcamentaria_pmsp.rds">exec_orcamentaria_pmsp.rds</a></p>
+<ul>
+<li>Exportar em Excel: <strong>Essa opção ainda não está funcionando</strong></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv2</span>(exec_orcamentaria_pmsp, <span class="dt">file =</span> <span class="st">&quot;data/exec_orcamentaria_pmsp.csv&quot;</span>)</code></pre></div>
+<p>Link para abrir este arquivo: <a href="data/exec_orcamentaria_pmsp.csv">exec_orcamentaria_pmsp.csv</a></p>
 <center>
 <a href="index.html">Página inicial</a>
 </center>

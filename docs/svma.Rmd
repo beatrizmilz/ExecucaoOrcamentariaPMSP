@@ -1,5 +1,5 @@
 ---
-title: "Dados de execução orçamentária da Prefeitura Municipal de São Paulo utilizando R"
+title: "Orçamento da Prefeitura Municipal de São Paulo"
 author: ""
 output:
   prettydoc::html_pretty:
@@ -68,6 +68,37 @@ orcamento_svma  %>%
   )+ theme_bw()
 ```
 
+```{r}
+exec_orcamentaria_pmsp  %>% 
+    mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  arrange (desc(Sld_Orcado_Ano)) %>% 
+  summarise(soma = sum(Sld_Orcado_Ano)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = soma))+
+   labs(
+    x = "Ano", 
+    y = "Soma Saldo orçado (Milhões de R$)",
+    fill = "Ano"
+  )+ theme_bw()
+```
+
+```{r}
+orcamento_svma  %>% 
+  filter(ProjetoAtividade == "2100") %>% 
+    mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  arrange (desc(Sld_Orcado_Ano)) %>% 
+  summarise(soma = sum(Sld_Orcado_Ano)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = soma))+
+   labs(
+    x = "Ano", 
+    y = "Soma Saldo orçado (Milhões de R$)",
+    fill = "Ano")+ theme_bw()
+```
 
 Quanto é essa diferença? Ou seja, quanto foi previsto no orçamento e não foi gasto?
 
@@ -77,16 +108,15 @@ orcamento_svma  %>%
   mutate(Vl_diferenca = Vl_Atualizado-Vl_Pago) %>% 
 mutate(Vl_diferenca = Vl_diferenca/1000000) %>%  #transformar em milhões
   group_by(Cd_Exercicio) %>%  
-  arrange (desc(Vl_diferenca)) %>% 
   summarise(soma = sum(Vl_diferenca)) %>% 
 
   ggplot()+
     geom_col(aes(x = Cd_Exercicio, y = soma))+
    labs(
     x = "Ano", 
-    y = "Vl previsto - Vl Pago (Milhões de R$)",
-    fill = "Ano"
-  )+ theme_bw()
+    y = "Vl previsto - Vl Pago (Milhões de R$)"
+
+  )+ theme_light()
 ```
 
 
