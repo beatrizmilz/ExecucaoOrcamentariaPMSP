@@ -28,16 +28,16 @@ Qual foi o orçamento gasto na função Gestão Ambiental por ano?
 É importante considerar que o ano de 2018 está incompleto, pois ainda estamos em outubro.
 ```{r}
 exec_orcamentaria_pmsp  %>% 
-     mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
    filter(Ds_Funcao=="Gestão Ambiental") %>%
   group_by(Cd_Exercicio) %>%  
-  summarise(soma = sum(Vl_Pago)) %>% 
+  summarise(soma = sum(Vl_Liquidado)) %>% 
 
   ggplot()+
     geom_col(aes(x = Cd_Exercicio, y = soma))+
    labs(
     x = "Ano", 
-    y = "Soma valor pago (Milhões de R$)",
+    y = "Soma valor liquidado (Milhões de R$)",
     fill = "Ano"
   ) + theme_bw()
 ```
@@ -46,11 +46,11 @@ exec_orcamentaria_pmsp  %>%
 Quanto foi o gasto por sub-função entre 2003 e 2018?
 ```{r}
 exec_orcamentaria_pmsp  %>% 
-     mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
    filter(Ds_Funcao=="Gestão Ambiental") %>%
     group_by(Cd_Exercicio) %>% 
 group_by(Ds_SubFuncao) %>% 
-  summarise(soma = sum(Vl_Pago)) %>%
+  summarise(soma = sum(Vl_Liquidado)) %>%
   filter(soma > 0) %>% 
   arrange(desc(soma)) %>% 
 
@@ -58,7 +58,7 @@ group_by(Ds_SubFuncao) %>%
     geom_col(aes(x = reorder(Ds_SubFuncao,-soma), y = soma, fill=Ds_SubFuncao))+
    labs(
     x = "Sub-função", 
-    y = "Soma valor pago (Milhões de R$)",
+    y = "Soma valor liquidado (Milhões de R$)",
     fill = "Sub-função"
   ) + theme_bw()+
    theme(axis.title.x=element_blank(),
@@ -72,17 +72,17 @@ group_by(Ds_SubFuncao) %>%
 Quanto foi o gasto por sub-função por ano?
 ```{r}
 exec_orcamentaria_pmsp  %>% 
-     mutate(Vl_Pago = Vl_Pago/1000000) %>%  #transformar em milhões
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
    filter(Ds_Funcao=="Gestão Ambiental") %>%
   
 group_by(Ds_SubFuncao) %>% 
-   filter(Vl_Pago > 0) %>% 
-  arrange(desc(Vl_Pago)) %>% 
+   filter(Vl_Liquidado > 0) %>% 
+
   ggplot()+
-    geom_col(aes(x = reorder(Ds_SubFuncao,-Vl_Pago), y = Vl_Pago, fill=Ds_SubFuncao))+
+    geom_col(aes(x = reorder(Ds_SubFuncao,-Vl_Liquidado), y = Vl_Liquidado, fill=Ds_SubFuncao))+
    labs(
     x = "Sub-função", 
-    y = "Soma valor pago (Milhões de R$)",
+    y = "Soma valor liquidado (Milhões de R$)",
     fill = "Sub-função"
   ) + theme_bw()+
    theme(axis.title.x=element_blank(),

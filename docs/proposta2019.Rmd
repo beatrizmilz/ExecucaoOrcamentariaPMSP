@@ -68,12 +68,29 @@ Qual é o orçamento previsto para a Secretaria Municipal do Verde e do Meio Amb
 ```{r}
 proposta2019 %>% 
   mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
-  filter(desc_funcao=="Gestão Ambiental") %>% 
+  filter(desc_orgao=="Secretaria Municipal do Verde e do Meio Ambiente") %>% 
 group_by(desc_orgao) %>% 
  summarise(soma = sum(saldo_orc)) %>% 
   arrange(desc(soma))
 ```
+```{r}
+proposta2019 %>% 
+  mutate(saldo_orc = saldo_orc/1000000) %>%  #transformar em milhões
+  filter(desc_orgao=="Secretaria Municipal do Verde e do Meio Ambiente") %>% 
+group_by(desc_programa) %>% 
+ summarise(soma = sum(saldo_orc)) %>% 
 
+    ggplot()+
+    geom_col(aes(x =  reorder(desc_programa,-soma), y = soma, fill=desc_programa))+
+   labs(
+    x = "Programa", 
+    y = "Orçamento (Milhões de R$)",
+    fill = "Programa"
+  )+ theme_bw()+
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
 ## Funções
 
 ### Gestão Ambiental
@@ -108,13 +125,13 @@ group_by(desc_subfuncao) %>%
    labs(
     x = "Órgão", 
     y = "Orçamento (Milhões de R$)",
-    fill = "Órgão"
+    fill = "Subfunção"
   )+ theme_bw()+
  theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
        strip.text = element_text(size=10))+
-  facet_wrap(~orgao, labeller = label_wrap_gen(width=10))  
+  facet_wrap(~desc_orgao, labeller = label_wrap_gen(width=5))  
 
 ```
 
