@@ -18,35 +18,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Primeiro é necessário carregar o pacote Tidyverse:
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-library(tidyverse)
+#library(tidyverse)
+library(stringr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 ```
 
 
-- Carregar o dataframe da execução orçamentária entre 2003 e 2018 (caso queira saber como esse arquivo foi gerado, [clique aqui](preparardados.html).
+- Carregar o dataframe da execução orçamentária entre 2014 e 2018 (caso queira saber como esse arquivo foi gerado, [clique aqui](preparardados.html).
 ```{r}
-exec_orcamentaria_pmsp <- read_rds("data/exec_orcamentaria_pmsp.rds")
+exec_orcamentaria_pmsp2014_2018 <- readr::read_rds("data/exec_orcamentaria_pmsp2014_2018.rds")
 ```
 
 
 - Padronizar as siglas de órgão: substituir PR (Prefeitura Regional) por SP (Subprefeitura)
 ```{r}
-exec_orcamentaria_pmsp$Sigla_Orgao <- str_replace(exec_orcamentaria_pmsp$Sigla_Orgao,"PR-","SP-")
+exec_orcamentaria_pmsp2014_2018$Sigla_Orgao <- str_replace(exec_orcamentaria_pmsp2014_2018$Sigla_Orgao,"PR-","SP-")
 
-```
-
-
-- Anos do estudo
-
-```{r}
-anosestudo <- c(2014:2018)
 ```
 
 ## Projeto "Participação, transparência e controle social da administração pública"
 
 - Gráfico: Saldo orçado - Previsto, Projeto "Participação, transparência e controle social da administração pública", por Subprefeitura
-```{r}
-exec_orcamentaria_pmsp %>% 
-  filter(Cd_Exercicio == anosestudo) %>% 
+```{r message=FALSE, warning=FALSE}
+exec_orcamentaria_pmsp2014_2018 %>% 
   filter(ProjetoAtividade == "2803") %>% 
     mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000) %>%  #transformar em mil
  filter(str_detect(Sigla_Orgao,"SP-")) %>% 
@@ -68,10 +64,10 @@ group_by(Cd_Exercicio) %>%
 
 
 - Gráfico: Saldo liquidado, Projeto "Participação, transparência e controle social da administração pública", por Subprefeitura
-```{r}
+```{r message=FALSE, warning=FALSE}
 
-exec_orcamentaria_pmsp %>% 
-    filter(Cd_Exercicio == anosestudo) %>% 
+exec_orcamentaria_pmsp2014_2018 %>% 
+
   filter(ProjetoAtividade == "2803") %>% 
     mutate(Vl_Liquidado = Vl_Liquidado/1000) %>%  #transformar em mil
  filter(str_detect(Sigla_Orgao,"SP-")) %>% 
@@ -103,16 +99,15 @@ __________________
   - Operação, Manutenção e Conservação de Parques
   - Reforma e Adequação de Parques e Unidades de Conservação Municipais
   - Manutenção e Operação de Parques e Unidades de Conservação
-  
-  
-- Gráfico: Saldo orçado - Previsto, por Subprefeitura **(CORRIGIR)**
+
+- Gráfico: Saldo orçado - Previsto **(CORRIGIR)**
 
 ```{r}
 
-projetos_conservacao <- c(2703,6678,3404,1703,2366,7116)
-exec_orcamentaria_pmsp %>% 
-    filter(Cd_Exercicio == anosestudo) %>% 
-  filter(ProjetoAtividade == projetos_conservacao) %>% 
+projetos_conservacao <- c(2703,6678,3404,1703,2366)
+exec_orcamentaria_pmsp2014_2018 %>% 
+ 
+  filter(ProjetoAtividade == projetos_conservacao) %>% #problema no filtro
     mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
 group_by(Cd_Exercicio) %>%  
 
@@ -122,20 +117,20 @@ group_by(Cd_Exercicio) %>%
     x = "Ano", 
     y = "Saldo Orçado (Milhões R$)",
     fill = "Ano")+ theme_bw() + 
-    facet_wrap(~Ds_Projeto_Atividade)  +
+    #facet_wrap(~Ds_Projeto_Atividade)  +
 #   theme(axis.title.x=element_blank(),
  #       axis.text.x=element_blank(),
   #      axis.ticks.x=element_blank())+
         scale_y_continuous(limits = c(0, 80), breaks = seq(0,100, by = 25))+
-  ggsave("orcado_conservacao.png", dpi = 300)
+  ggsave("orcado_conservacaoteste.png", dpi = 300)
 ```
 
 
-- Gráfico: Saldo liquidado, por Subprefeitura **(CORRIGIR)**
+- Gráfico: Saldo liquidado**(CORRIGIR)**
 ```{r}
 
-exec_orcamentaria_pmsp %>% 
-    filter(Cd_Exercicio == anosestudo) %>% 
+exec_orcamentaria_pmsp2014_2018 %>% 
+
   filter(ProjetoAtividade == projetos_conservacao) %>% 
     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
 group_by(Cd_Exercicio) %>%  
@@ -146,28 +141,29 @@ group_by(Cd_Exercicio) %>%
     x = "Ano", 
     y = "Valor Liquidado (Milhões R$)",
     fill = "Ano")+ theme_bw() + 
-    facet_wrap(~Ds_Projeto_Atividade)  +
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
+    #facet_wrap(~Ds_Projeto_Atividade)  +
+  # theme(axis.title.x=element_blank(),
+   #     axis.text.x=element_blank(),
+    #    axis.ticks.x=element_blank())+
           scale_y_continuous(limits = c(0, 105), breaks = seq(0,125, by = 25))+
-    ggsave("liquidado_conservacao.png", dpi = 300)
+    ggsave("liquidado_conservacaoteste.png", dpi = 300)
 
 ```
 
 
 ____
 
-## Projeto "Proteção dos recursos naturais da cidade"**(CORRIGIR)**
+## Projeto "Proteção dos recursos naturais da cidade"
 
-- Gráfico: Saldo orçado - Previsto, Projeto "Proteção dos recursos naturais da cidade", por Subprefeitura
+- Gráfico: Saldo orçado - Previsto, Programa "Preservação e Conservação Ambiental", por Subprefeitura
 ```{r}
-exec_orcamentaria_pmsp %>% 
-    filter(Cd_Exercicio == anosestudo) %>% 
+exec_orcamentaria_pmsp2014_2018 %>% 
+ 
     filter(Cd_Programa == 3020) %>% 
-  filter(ProjetoAtividade == 3404) %>% 
+  #filter(ProjetoAtividade == 3404) %>% 
+   #  filter(Sld_Orcado_Ano > 0) %>% 
     mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
-     filter(Sld_Orcado_Ano > 0) %>% 
+
 group_by(Cd_Exercicio) %>%  
 
   ggplot()+
@@ -178,41 +174,214 @@ group_by(Cd_Exercicio) %>%
     fill = "Ano")+ theme_bw() + 
     facet_wrap(~Sigla_Orgao)  +
    theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
+       axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+
-        #scale_y_continuous(limits = c(0, 105), breaks = seq(0,125, by = 25))+
-  ggsave("orcado_3404.png", dpi = 300)
+       scale_y_continuous(limits = c(0, 60), breaks = seq(0,75, by = 25))+
+  ggsave("orcado_programa3020.png", dpi = 300)
 ```
 
 
-- Gráfico: Saldo liquidado, Projeto "Proteção dos recursos naturais da cidade", por Subprefeitura **(CORRIGIR)**
+- Gráfico: Valor liquidado, Programa "Preservação e Conservação Ambiental", por Subprefeitura 
 ```{r}
-
-exec_orcamentaria_pmsp %>% 
-    filter(Cd_Exercicio == anosestudo) %>% 
-  filter(ProjetoAtividade == "2703") %>% 
+exec_orcamentaria_pmsp2014_2018 %>% 
+ 
+    filter(Cd_Programa == 3020) %>% 
+# filter(ProjetoAtividade == 3404) %>% 
     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+ #    filter(Vl_Liquidado > 0) %>% 
 group_by(Cd_Exercicio) %>%  
 
   ggplot()+
     geom_col(aes(x = Cd_Exercicio, y = Vl_Liquidado, fill=Cd_Exercicio))+
    labs(
     x = "Ano", 
-    y = "Valor Liquidado (Milhões R$)",
+    y = "Valor liquidado (Milhões R$)",
     fill = "Ano")+ theme_bw() + 
     facet_wrap(~Sigla_Orgao)  +
+ theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+       axis.ticks.x=element_blank())+
+  scale_y_continuous(limits = c(0, 60), breaks = seq(0,75, by = 25))+    ggsave("liquidado_programa3020.png", dpi = 300)
+
+```
+
+
+----------------------
+## Órgão SVMA
+Quanto era o orçamento previsto por ano? 
+
+```{r}
+exec_orcamentaria_pmsp2014_2018 %>% filter(Sigla_Orgao == "SVMA")%>% 
+    mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = Sld_Orcado_Ano))+
+   labs(
+    x = "Ano", 
+    y = "Saldo Orçado (Milhões de R$)"
+  )+ theme_bw()+
+      scale_y_continuous(limits = c(0, 250), breaks = seq(0,250, by = 50))+    ggsave("orcado_svma.png", dpi = 300)
+```
+Qual foi o Valor liquidado para a SVMA por ano? É importante considerar que o ano de 2018 está incompleto, pois ainda estamos em outubro.
+```{r}
+exec_orcamentaria_pmsp2014_2018 %>% filter(Sigla_Orgao == "SVMA") %>% 
+    mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = Vl_Liquidado))+
+   labs(
+    x = "Ano", 
+    y = "Valor liquidado (Milhões de R$)"
+  ) + theme_bw() + 
+    scale_y_continuous(limits = c(0, 250), breaks = seq(0,250, by = 50))+    ggsave("liquidado_svma.png", dpi = 300)
+```
+
+----------------------
+## Órgão FEMA
+Quanto era o orçamento previsto por ano? 
+
+```{r}
+exec_orcamentaria_pmsp2014_2018 %>% filter(Sigla_Orgao == "FEMA")%>% 
+    mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = Sld_Orcado_Ano))+
+   labs(
+    x = "Ano", 
+    y = "Saldo Orçado (Milhões de R$)"
+  )+ theme_bw()+
+      scale_y_continuous(limits = c(0, 200), breaks = seq(0,200, by = 50))+    ggsave("orcado_fema.png", dpi = 300)
+```
+Qual foi o Valor liquidado por ano? É importante considerar que o ano de 2018 está incompleto, pois ainda estamos em outubro.
+```{r}
+exec_orcamentaria_pmsp2014_2018 %>% filter(Sigla_Orgao == "FEMA") %>% 
+    mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+  group_by(Cd_Exercicio) %>%  
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = Vl_Liquidado))+
+   labs(
+    x = "Ano", 
+    y = "Valor liquidado (Milhões de R$)"
+  ) + theme_bw() + 
+    scale_y_continuous(limits = c(0, 200), breaks = seq(0,200, by = 50))+    ggsave("liquidado_fema.png", dpi = 300)
+```
+
+
+## Função Gestão Ambiental
+Quanto era o orçamento previsto por ano? 
+
+```{r}
+exec_orcamentaria_pmsp2014_2018  %>% 
+     mutate(Sld_Orcado_Ano = Sld_Orcado_Ano/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+  group_by(Cd_Exercicio) %>%  
+
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = Sld_Orcado_Ano))+
+   labs(
+    x = "Ano", 
+    y = "Soma Saldo orçado (Milhões de R$)",
+    fill = "Ano"
+  ) + theme_bw()+
+      scale_y_continuous(limits = c(0, 400), breaks = seq(0,400, by = 100))+    ggsave("orcado_funcaoGA.png", dpi = 300)
+```
+
+Qual foi o valor liquidado na função Gestão Ambiental por ano?
+É importante considerar que o ano de 2018 está incompleto, pois ainda estamos em outubro.
+```{r}
+exec_orcamentaria_pmsp2014_2018  %>% 
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+  group_by(Cd_Exercicio) %>%  
+
+
+  ggplot()+
+    geom_col(aes(x = Cd_Exercicio, y = Vl_Liquidado))+
+   labs(
+    x = "Ano", 
+    y = "Soma valor liquidado (Milhões de R$)",
+    fill = "Ano"
+  ) + theme_bw()+
+      scale_y_continuous(limits = c(0, 400), breaks = seq(0,400, by = 100))+    ggsave("liquidado_funcaoGA.png", dpi = 300)
+```
+---
+### Gestão ambiental: Subfunções
+
+Quanto foi o valor orçado por sub-função por ano?
+```{r}
+exec_orcamentaria_pmsp2014_2018   %>% 
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+    group_by(Cd_Exercicio) %>% 
+group_by(Ds_SubFuncao) %>% 
+  summarise(soma = sum(Vl_Liquidado)) %>%
+  filter(soma > 0) %>% 
+  arrange(desc(soma)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = reorder(Ds_SubFuncao,-soma), y = soma, fill=Ds_SubFuncao))+
+   labs(
+    x = "Sub-função", 
+    y = "Soma valor liquidado (Milhões de R$)",
+    fill = "Sub-função"
+  ) + theme_bw()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-          scale_y_continuous(limits = c(0, 105), breaks = seq(0,125, by = 25))+
-    ggsave("liquidado_2703.png", dpi = 300)
+        axis.ticks.x=element_blank())
+
+
+```
+
+Quanto foi o gasto por sub-função por ano?
+```{r}
+exec_orcamentaria_pmsp2014_2018   %>% 
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+    group_by(Cd_Exercicio) %>% 
+group_by(Ds_SubFuncao) %>% 
+  summarise(soma = sum(Vl_Liquidado)) %>%
+  filter(soma > 0) %>% 
+  arrange(desc(soma)) %>% 
+
+  ggplot()+
+    geom_col(aes(x = reorder(Ds_SubFuncao,-soma), y = soma, fill=Ds_SubFuncao))+
+   labs(
+    x = "Sub-função", 
+    y = "Soma valor liquidado (Milhões de R$)",
+    fill = "Sub-função"
+  ) + theme_bw()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
 
 ```
 
 
 
+Quanto foi o gasto por sub-função por ano?
+```{r}
+exec_orcamentaria_pmsp2014_2018   %>% 
+     mutate(Vl_Liquidado = Vl_Liquidado/1000000) %>%  #transformar em milhões
+   filter(Ds_Funcao=="Gestão Ambiental") %>%
+  
+group_by(Ds_SubFuncao) %>% 
+   filter(Vl_Liquidado > 0) %>% 
 
+  ggplot()+
+    geom_col(aes(x = reorder(Ds_SubFuncao,-Vl_Liquidado), y = Vl_Liquidado, fill=Ds_SubFuncao))+
+   labs(
+    x = "Sub-função", 
+    y = "Soma valor liquidado (Milhões de R$)",
+    fill = "Sub-função"
+  ) + theme_bw()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+     facet_wrap(~Cd_Exercicio)  
 
+```
 
 
 <center>[Página inicial](index.html)
