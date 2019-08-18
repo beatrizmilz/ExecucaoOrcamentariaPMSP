@@ -1,0 +1,28 @@
+Package: OrcamentoPMSP
+Title: Orçamento da Prefeitura Municipal de São Paulo
+Version: 0.0.0.9000
+Authors@R: person('Beatriz', 'Milz', email = 'beatriz.milz@usp.br', role = c('cre', 'aut'))
+Description: Este ShinyApp tem como objetivo facilitar a consulta e visualização de dados da Execução Orcamentária da Prefeitura Municipal de São Paulo.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    shiny,
+    golem,
+    processx,
+    attempt,
+    DT,
+    glue,
+    htmltools,
+    thinkr,
+    pkgload,
+    ggplot2,
+    magrittr
+RoxygenNote: 6.1.1
+URL: https://github.com/beatrizmilz/ExecucaoOrcamentariaPMSP
+BugReports: https://github.com/beatrizmilz/ExecucaoOrcamentariaPMSP/issues
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

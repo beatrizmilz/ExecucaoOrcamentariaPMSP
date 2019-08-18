@@ -35,7 +35,10 @@ read_xls(paste0("data-raw/basedadosexecucao", ano, ".xls")) %>%
 juntar_bases_orcamento <- function() {
   df_orcamento <-
     list.files(path = "data-output/basespmsp", full.names = TRUE) %>%
-    map(readRDS) %>%
-    bind_rows() %>% 
-    saveRDS(file = paste0("data-output/df_execucao_united.rds"))
+    purrr::map(readRDS) %>%
+    dplyr::bind_rows() 
+   
+    saveRDS(df_orcamento, file = paste0("data-output/df_execucao_united.rds"))
+  
+  saveRDS(df_orcamento, file = paste0("shiny/data-raw/df_execucao_united.rds"))
 }

@@ -1,0 +1,12 @@
+name: execucao-orcamentaria-PMSP
+title: execucao-orcamentaria-PMSP
+username:
+account: beatriz-milz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1094811
+bundleId: 2332498
+url: https://beatriz-milz.shinyapps.io/execucao-orcamentaria-PMSP/
+when: 1566169624.4865
+asMultiple: FALSE
+asStatic: FALSE
