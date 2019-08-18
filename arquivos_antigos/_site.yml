@@ -1,0 +1,20 @@
+name: "Explorando o orçamento da Prefeitura Municipal de São Paulo"
+output_dir: "docs"
+navbar:
+  title: "Explorando o orçamento da Prefeitura Municipal de São Paulo"
+  left:
+    - text: "Página Inicial"
+      icon: fa-home
+      href: index.html
+    - text: "Preparar dados"
+      href: preparardados.html
+  right:
+    - icon: fa-question fa-github
+      href: https://github.com/beatrizmilz/DadosExecucaoOrcamentariaPMSP
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    include:
+      after_body: footer.html
+    css: styles.css

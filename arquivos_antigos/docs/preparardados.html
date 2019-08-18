@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Explorando o orçamento da Prefeitura Municipal de São Paulo</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Página Inicial
+  </a>
+</li>
+<li>
+  <a href="preparardados.html">Preparar dados</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/beatrizmilz/DadosExecucaoOrcamentariaPMSP">
+    <span class="fa fa-question fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="preparando-os-dados" class="section level1">
+<h1>Preparando os dados</h1>
+<ul>
+<li>Importar os dados de execução orçamentária</li>
+</ul>
+<p>Primeiro é necessário carregar os pacotes utilizados:</p>
+<pre class="r"><code>library(readr)
+library(sqldf)
+library(dplyr)
+library(readxl)</code></pre>
+<p>Fazer o download das bases de dados de execução disponibilizadas pela PMSP:</p>
+<p>Caminho através do site da prefeitura: Prefeitura Municial de São Paulo -&gt; Secretaria da Fazenda -&gt; Prestação de Contas Públicas -&gt; Orçamento.</p>
+<p>Link: <a href="http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php" class="uri">http://orcamento.sf.prefeitura.sp.gov.br/orcamento/execucao.php</a></p>
+<p>O código a seguir faz o download dos arquivos entre os anos 2003 e 2017, e salva na pasta “data” (essa etapa pode demorar um pouco): - Download de 2003 até 2017:</p>
+<pre class="r"><code>for (x in 2003:2017){
+  download.file(paste0(&quot;http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/&quot;,x,&quot;/basedadosexecucao&quot;,x,&quot;.xls&quot;), 
+                destfile = paste0(&quot;data/basedadosexecucao&quot;,x,&quot;.xls&quot;), mode = &quot;wb&quot;)
+}</code></pre>
+<ul>
+<li>Carregar o arquivo excel disponibilizado pela prefeitura:</li>
+</ul>
+<p><em>Referência:</em></p>
+<p>Data de obtenção dos dados:</p>
+<ul>
+<li>Dados de 2003 à 2017 - download realizado em 01/11/2018;</li>
+</ul>
+<pre class="r"><code>orcamento2003 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2003.xls&quot;)
+orcamento2004 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2004.xls&quot;)
+orcamento2005 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2005.xls&quot;)
+orcamento2006 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2006.xls&quot;)
+orcamento2007 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2007.xls&quot;)
+orcamento2008 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2008.xls&quot;)
+orcamento2009 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2009.xls&quot;)
+orcamento2010 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2010.xls&quot;)
+orcamento2011 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2011.xls&quot;)
+orcamento2012 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2012.xls&quot;)
+orcamento2013 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2013.xls&quot;)
+orcamento2014 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2014.xls&quot;)
+orcamento2015 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2015.xls&quot;)
+orcamento2016 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2016.xls&quot;)
+orcamento2017 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2017.xls&quot;)</code></pre>
+<ul>
+<li>Padronizar os dados de 2017: Os dados de 2017 não estão no mesmo padrão dos anos anteriores. Precisamos padronizar transformando algumas colunas em string/texto.</li>
+</ul>
+<pre class="r"><code>orcamento2017$Cd_AnoExecucao &lt;- as.character(orcamento2017$Cd_AnoExecucao)
+
+orcamento2017$Cd_Exercicio &lt;- as.character(orcamento2017$Cd_Exercicio)
+
+orcamento2017$Cd_Exerc_Empresa_Id &lt;- as.character(orcamento2017$Cd_Exerc_Empresa_Id)
+
+orcamento2017$Cd_Orgao &lt;- as.character(orcamento2017$Cd_Orgao)
+
+orcamento2017$Cd_Unidade &lt;- as.character(orcamento2017$Cd_Unidade)
+
+orcamento2017$Cd_Funcao &lt;- as.character(orcamento2017$Cd_Funcao)
+
+orcamento2017$Cd_SubFuncao &lt;- as.character(orcamento2017$Cd_SubFuncao)
+
+orcamento2017$Cd_Programa &lt;- as.character(orcamento2017$Cd_Programa)
+
+orcamento2017$ProjetoAtividade  &lt;- as.character(orcamento2017$ProjetoAtividade)
+
+orcamento2017$Cd_Despesa  &lt;- as.character(orcamento2017$Cd_Despesa)
+
+orcamento2017$Categoria_Despesa  &lt;- as.character(orcamento2017$Categoria_Despesa)
+
+orcamento2017$Grupo_Despesa  &lt;- as.character(orcamento2017$Grupo_Despesa)
+
+orcamento2017$Cd_Modalidade  &lt;- as.character(orcamento2017$Cd_Modalidade)
+
+orcamento2017$Cd_Elemento  &lt;- as.character(orcamento2017$Cd_Elemento)
+
+orcamento2017$Cd_Fonte&lt;- as.character(orcamento2017$Cd_Fonte)</code></pre>
+<div id="juntar-os-dados-de-diferentes-anos-em-apenas-um-dataframe" class="section level2">
+<h2>Juntar os dados de diferentes anos em apenas um dataframe</h2>
+<ul>
+<li>Unir as bases de dados:</li>
+</ul>
+<pre class="r"><code>exec_orcamentaria_pmsp2003_2017&lt;-  full_join(orcamento2003,orcamento2004)  
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2005)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2006)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2007)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2008)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2009)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2010)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2011)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2012)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2013)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2014)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2015)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2016)
+exec_orcamentaria_pmsp2003_2017&lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2017)</code></pre>
+<ul>
+<li>Padronizar as datas</li>
+</ul>
+<pre class="r"><code>exec_orcamentaria_pmsp2003_2017$DataInicial &lt;- as.POSIXct(exec_orcamentaria_pmsp2003_2017$DataInicial)
+exec_orcamentaria_pmsp2003_2017$DataFinal &lt;- as.POSIXct(exec_orcamentaria_pmsp2003_2017$DataFinal)
+exec_orcamentaria_pmsp2003_2017$DataExtracao &lt;- as.POSIXct(exec_orcamentaria_pmsp2003_2017$DataExtracao)</code></pre>
+<ul>
+<li>Exportar um arquivo consolidado, com os dados dos anos anteriores:</li>
+</ul>
+<pre class="r"><code>write_rds(exec_orcamentaria_pmsp2003_2017, path=&quot;data/exec_orcamentaria_pmsp2003_2017.rds&quot;)</code></pre>
+<p>Dados do ano atual:</p>
+<p>Data de obtenção dos dados:</p>
+<ul>
+<li><p>Dados de 2018 - download realizado em 01/11/2018;</p></li>
+<li><p>Download dos dados de 2018:</p></li>
+</ul>
+<pre class="r"><code>download.file(&quot;http://orcamento.sf.prefeitura.sp.gov.br/orcamento/uploads/2018/basedadosexecucao2018.xls&quot;, destfile = &quot;data/basedadosexecucao2018.xls&quot;, mode = &#39;wb&#39;)</code></pre>
+<ul>
+<li>Importar as bases de dados (a consolidada dos anos anteriores e a do ano atual):</li>
+</ul>
+<pre class="r"><code>exec_orcamentaria_pmsp2003_2017 &lt;- read_rds(&quot;data/exec_orcamentaria_pmsp2003_2017.rds&quot;)
+
+#orcamento2018 &lt;- readxl::read_xls(&quot;data/basedadosexecucao2018.xls&quot;)
+
+orcamento2018 &lt;- readxl::read_excel(&quot;data/basedadosexecucao2018.xlsx&quot;)</code></pre>
+<ul>
+<li>Padronizar a base de dados de 2018:</li>
+</ul>
+<pre class="r"><code>orcamento2018$Cd_AnoExecucao &lt;- as.character(orcamento2018$Cd_AnoExecucao)
+
+orcamento2018$Cd_Exercicio &lt;- as.character(orcamento2018$Cd_Exercicio)
+
+orcamento2018$Cd_Exerc_Empresa_Id &lt;- as.character(orcamento2018$Cd_Exerc_Empresa_Id)
+
+orcamento2018$Cd_Orgao &lt;- as.character(orcamento2018$Cd_Orgao)
+
+orcamento2018$Cd_Unidade &lt;- as.character(orcamento2018$Cd_Unidade)
+
+orcamento2018$Cd_Funcao &lt;- as.character(orcamento2018$Cd_Funcao)
+
+orcamento2018$Cd_SubFuncao &lt;- as.character(orcamento2018$Cd_SubFuncao)
+
+orcamento2018$Cd_Programa &lt;- as.character(orcamento2018$Cd_Programa)
+
+orcamento2018$ProjetoAtividade  &lt;- as.character(orcamento2018$ProjetoAtividade)
+
+orcamento2018$Cd_Despesa  &lt;- as.character(orcamento2018$Cd_Despesa)
+
+orcamento2018$Categoria_Despesa  &lt;- as.character(orcamento2018$Categoria_Despesa)
+
+orcamento2018$Grupo_Despesa  &lt;- as.character(orcamento2018$Grupo_Despesa)
+
+orcamento2018$Cd_Modalidade  &lt;- as.character(orcamento2018$Cd_Modalidade)
+
+orcamento2018$Cd_Elemento  &lt;- as.character(orcamento2018$Cd_Elemento)
+
+orcamento2018$Cd_Fonte&lt;- as.character(orcamento2018$Cd_Fonte)</code></pre>
+<pre class="r"><code>orcamento2018$DataInicial &lt;- as.POSIXct(orcamento2018$DataInicial)
+orcamento2018$DataFinal &lt;- as.POSIXct(orcamento2018$DataFinal)
+orcamento2018$DataExtracao &lt;- as.POSIXct(orcamento2018$DataExtracao)
+
+exec_orcamentaria_pmsp2003_2017$DataInicial &lt;- as.POSIXct(exec_orcamentaria_pmsp2003_2017$DataInicial)
+exec_orcamentaria_pmsp2003_2017$DataFinal &lt;- as.POSIXct(exec_orcamentaria_pmsp2003_2017$DataFinal)
+exec_orcamentaria_pmsp2003_2017$DataExtracao &lt;- as.POSIXct(exec_orcamentaria_pmsp2003_2017$DataExtracao)</code></pre>
+<ul>
+<li>Unir as bases de dados:</li>
+</ul>
+<pre class="r"><code>exec_orcamentaria_pmsp &lt;-  full_join(exec_orcamentaria_pmsp2003_2017,orcamento2018)
+View(exec_orcamentaria_pmsp)</code></pre>
+<p>Temos agora um dataframe com os dados de execução orçamentária da Prefeitura Municipal de São Paulo entre os anos 2013 e 2018. Vamos exportar este dataframe para ter um arquivo único:</p>
+<pre class="r"><code>write_rds(exec_orcamentaria_pmsp, path=&quot;data/exec_orcamentaria_pmsp.rds&quot;)</code></pre>
+<p>Link para abrir este arquivo: <a href="data/exec_orcamentaria_pmsp.rds">exec_orcamentaria_pmsp.rds</a></p>
+<pre class="r"><code>write.csv2(exec_orcamentaria_pmsp, file = &quot;data/exec_orcamentaria_pmsp.csv&quot;,  fileEncoding = &quot;UTF-8&quot;)</code></pre>
+<p>Link para abrir este arquivo: <a href="data/exec_orcamentaria_pmsp.csv">exec_orcamentaria_pmsp.csv</a></p>
+</div>
+</div>
+
+
+
+<br>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+---
+title: " "
+---
+
+Página em construção!
+
+Explorando os dados: 
+
++ [Secretaria do Verde e do Meio Ambiente](svma.html)
+
++ [Gestão Ambiental](gestaoambiental.html)
+
+- [Proposta Orçamentária 2019](proposta2019.html)
+
+
+
++ Confira aqui as datas das [audiências públicas sobre o Orçamento da PMSP para o ano de 2019](http://www.saopaulo.sp.leg.br/blog/destaques-do-orcamento-2019/).
+
+
+
+- Download arquivo CSV - 2003 à 01/11/2018: [exec_orcamentaria_pmsp.csv](data/exec_orcamentaria_pmsp.csv)
+
+<br>
+<footer>
+Elaborado por <a href="https://github.com/beatrizmilz" target=_blank>Beatriz Milz</a>, utilizando os softwares <a href="https://www.r-project.org/" target=_blank>R</a> e <a href="https://www.rstudio.com/" target=_blank>RStudio</a>.
+Pacotes utilizados: 
+<a href="https://www.tidyverse.org/" target=_blank>Tidyverse</a>, Rmarkdown.
+
+
+<strong>Agradecimentos</strong>: <a href="http://cafehacker.prefeitura.sp.gov.br" target=_blank>Café Hacker SP</a>,
+<a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/controladoria_geral/participacao_social/" target=_blank>Controladoria Geral da Prefeitura Municipal de São Paulo</a>,
+<a href="https://rladies.org/
+" target=_blank>R-Ladies Global</a>, 
+<a href="https://www.meetup.com/R-Ladies-Sao-Paulo/
+" target=_blank>R-Ladies São Paulo</a>,
+<a href="https://www.curso-r.com/" target=_blank>Curso-R</a>.
+
+</footer>
+
