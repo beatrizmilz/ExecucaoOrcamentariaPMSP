@@ -5,8 +5,8 @@ account: beatriz-milz
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1094811
-bundleId: 2332498
+bundleId: 2332553
 url: https://beatriz-milz.shinyapps.io/execucao-orcamentaria-PMSP/
-when: 1566169624.4865
+when: 1566171296.87712
 asMultiple: FALSE
 asStatic: FALSE

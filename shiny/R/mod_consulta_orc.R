@@ -17,6 +17,9 @@
 #' @import dplyr
 #' @import ggplot2
 #' 
+#' 
+df_orc <- readRDS("data-raw/df_execucao_united.rds")
+
 mod_consulta_orc_ui <- function(id) {
   ns <- NS(id)
   tagList(

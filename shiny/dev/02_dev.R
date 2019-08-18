@@ -15,6 +15,7 @@ golem::add_module( name = "consulta_orc" ) # Name of the module
 usethis::use_package("thinkr") # To call each time you need a new package
 usethis::use_package("ggplot2") 
 usethis::use_package("magrittr") 
+usethis::use_package("shinydashboard")
 
 ## 2.3 Add tests
 

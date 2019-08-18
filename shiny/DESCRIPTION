@@ -17,7 +17,8 @@ Imports:
     thinkr,
     pkgload,
     ggplot2,
-    magrittr
+    magrittr,
+    shinydashboard
 RoxygenNote: 6.1.1
 URL: https://github.com/beatrizmilz/ExecucaoOrcamentariaPMSP
 BugReports: https://github.com/beatrizmilz/ExecucaoOrcamentariaPMSP/issues
